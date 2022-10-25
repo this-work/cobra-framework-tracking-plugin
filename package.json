@@ -1,0 +1,23 @@
+{
+  "name": "@this/cobra-framework-tracking-plugin",
+  "version": "1.0.0",
+  "author": "THIS GmbH",
+  "repository": "https://bitbucket.org/this-work/this.cobra-framework-tracking-plugin/src/master/README.md",
+  "description": "Vue/Nuxt module integration for tracking functions with the THIS companion",
+  "main": "./src/module.js",
+  "keywords": [
+    "scss",
+    "vue",
+    "nuxt",
+    "cobra",
+    "js",
+    "tracking",
+    "companion",
+    "plugin",
+    "framework"
+  ],
+  "license": "MIT",
+  "files": [
+    "src"
+  ]
+}

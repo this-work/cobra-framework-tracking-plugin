@@ -1,0 +1,13 @@
+<component
+    :is="tag"
+    v-if="url"
+    :appearance="appearance"
+    :href="url"
+    :label="buttonLabel ? buttonLabel : null"
+    :title="description"
+    icon-position="left"
+    :icon="icon"
+    tag="a"
+    target="_blank"
+    @click.native="$tracking.download(url)"
+/>
