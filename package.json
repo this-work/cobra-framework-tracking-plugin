@@ -1,6 +1,6 @@
 {
   "name": "@this/cobra-framework-tracking-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "THIS GmbH",
   "repository": "https://bitbucket.org/this-work/this.cobra-framework-tracking-plugin/src/master/README.md",
   "description": "Vue/Nuxt module integration for tracking functions with the THIS companion",

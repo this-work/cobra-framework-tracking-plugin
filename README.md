@@ -13,12 +13,21 @@ Install plugin dependencies
 $ npm install @this/cobra-framework-tracking-plugin
 ```
 
-Add module in nuxt.config.js
+Add build module in nuxt.config.js
 ``` js
 buildModules: [
     '@this/cobra-framework-tracking-plugin'
 ]
 ```
+
+And add a extending proxy config module in nuxt.config.js before the poxy module
+``` js
+buildModules: [
+    '@this/cobra-framework-tracking-plugin/src/proxy'
+]
+```
+
+
 
 The tool automatically extends the c-component to include download tracking and add all available tracking endpoints to the vue instance. 
 You can call the endpoints it with a new instance variable called $tracking: 
