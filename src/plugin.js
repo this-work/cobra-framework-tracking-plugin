@@ -97,11 +97,21 @@ export default ({ app }, inject) => {
 
         const courseListArray = Object.entries(courseList);
 
-        const filteredCourseListArray = courseListArray.filter(([key, value]) => value.includes(parseInt(detail.id)));
+        const filteredCourseListArray = courseListArray.filter(([key, value]) => {
+            if (!Array.isArray(value)) {
+                return parseInt(value) === parseInt(detail.id)
+            }
+            return value.includes(parseInt(detail.id))
+        });
 
         if (filteredCourseListArray.length > 0) {
 
-            const completedCourseListArray = filteredCourseListArray.filter(([key, value]) => value.every(v => completedPlaylists.includes(v + '')));
+            const completedCourseListArray = filteredCourseListArray.filter(([key, value]) => {
+                if (!Array.isArray(value)) {
+                    return completedPlaylists.includes(value + '')
+                }
+                return value.every(v => completedPlaylists.includes(v + ''));
+            });
 
             if (completedCourseListArray.length > 0) {
                 for (const completedCourse of Object.keys(Object.fromEntries(completedCourseListArray))) {
