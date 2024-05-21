@@ -1,0 +1,125 @@
+////
+///
+/// m-completed-courses
+///
+/// @group Modules
+///
+////
+
+$m-completed-courses-border-theme: 'table' !default;
+
+.m-completed-courses {
+    // #region [Block]
+    // #endregion
+
+    // #region [Element]
+
+    &__list {
+        border-bottom: 1px solid transparent;
+        @include color-theme($m-completed-courses-border-theme);
+    }
+
+    &__list-heading {
+        border-bottom: 1px solid transparent;
+        border-color: inherit;
+        &-column {
+            display: none;
+            @include responsive-font('copytext--small', false, 'bold');
+            @include responsive-spacing('xxsmall', padding-bottom);
+            @include above('s') {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            }
+        }
+    }
+
+    &__list-item {
+        border-color: inherit;
+        @include below('s') {
+            border-bottom: 1px solid transparent;
+            border-color: inherit;
+        }
+        &-column {
+            display: flex;
+            align-items: center;
+            @include responsive-font('copytext--small');
+            @include responsive-spacing('xsmall', padding-top padding-bottom);
+            @include above('s') {
+                border-bottom: 1px solid transparent;
+                border-color: inherit;
+            }
+            &--download {
+                justify-content: flex-end;
+                @include above('s') {
+                    justify-content: center;
+                }
+            }
+        }
+        &-completed-text {
+            display: block;
+            margin-right: spacing('6');
+            @include above('s') {
+                display: none;
+            }
+        }
+        &-completed-text, &-completed-date {
+            font: inherit;
+            letter-spacing: inherit;
+        }
+        &:last-child > * {
+            border-bottom-width: 0;
+        }
+    }
+
+    &__list-item-image {
+        width: unitize(100px);
+        margin-right: spacing('20');
+        @include rtl() {
+            margin-left: spacing('20');
+            margin-right: 0;
+        }
+    }
+
+    &__list-item-link {
+        color: inherit;
+    }
+
+    &__list-width {
+        &--small {
+            @include grid-cell-width(6);
+            @include above('s') {
+                @include grid-cell-width(2);
+            }
+        }
+        &--big {
+            @include grid-cell-width(12);
+            @include above('s') {
+                @include grid-cell-width(8);
+            }
+            @include below('s') {
+                padding-bottom: 0!important;
+            }
+        }
+    }
+
+    &__list-info {
+        text-align: center;
+        @include responsive-spacing('small', padding-top padding-bottom);
+        > * {
+            display: inline-flex;
+        }
+    }
+
+    // #endregion
+
+    // #region [Modifier]
+    // #endregion
+
+    // #region [Overwrites]
+    @if mixin-exists(m-completed-courses) {
+        @include m-completed-courses;
+    }
+    // #endregion
+
+}

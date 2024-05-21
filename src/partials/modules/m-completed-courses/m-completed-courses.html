@@ -1,0 +1,46 @@
+<module :class="blockClasses"
+        :backgroundPosition="backgroundPosition"
+        :backgroundImage="backgroundImage"
+>
+
+    <module-page>
+
+        <module-content>
+
+            <div :class="element('list')">
+
+                <c-grid :class="element('list-heading')">
+                    <strong :class="[element('list-heading-column'), element('list-width--big')]" v-html="$t('m-completed-courses--course')" />
+                    <strong :class="[element('list-heading-column'), element('list-width--small')]" v-html="$t('m-completed-courses--date')" />
+                    <strong :class="[element('list-heading-column'), element('list-width--small'), element('list-item-column--download')]" v-html="$t('m-completed-courses--certificate')" />
+                </c-grid>
+
+                <div :class="element('list-info')" v-if="fetching === true">
+                    <c-spinner :visible="true" />
+                </div>
+
+                <div :class="element('list-info')" v-else-if="fetching === false && courses.length <= 0">
+                    <p v-html="$t('m-completed-courses--nothingcompleted')" />
+                </div>
+
+                <c-grid v-else-if="fetching === false" :class="element('list-item')" v-for="(course, index) in courses"  :key="index">
+                    <div :class="[element('list-item-column'), element('list-width--big')]">
+                        <c-image v-if="course.hasOwnProperty('image')" :class="element('list-item-image')"  v-bind="course.image" />
+                        <strong><a :class="element('list-item-link')" :href="course.url" target="_blank" v-html="course.title" /></strong>
+                    </div>
+                    <div :class="[element('list-item-column'), element('list-width--small')]">
+                        <span :class="element('list-item-completed-text')" v-html="$t('m-completed-courses--date') + ': '" />
+                        <span :class="element('list-item-completed-date')" v-html="formattedCompletionDate(course.completedTime)" />
+                    </div>
+                    <div :class="[element('list-item-column'), element('list-width--small'), element('list-item-column--download')]">
+                        <c-download :class="element('list-item-link')" appearance="icon" :buttonLabel="false" :url="certificateLink(index)" />
+                    </div>
+                </c-grid>
+
+            </div>
+
+        </module-content>
+
+    </module-page>
+
+</module>

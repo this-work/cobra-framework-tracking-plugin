@@ -32,12 +32,13 @@ export default function() {
         mode: 'client'
     });
 
-    
+
     /**
      * List all component dirs
      */
     const componentDirs = [
-        'src/partials/components'
+        'src/partials/components',
+        'src/partials/modules'
     ];
 
 
