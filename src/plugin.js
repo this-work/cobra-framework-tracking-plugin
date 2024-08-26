@@ -78,61 +78,20 @@ export default ({ app }, inject) => {
     });
 
     document.addEventListener('playlist-completed', async ({ detail }) => {
-            try {
-                await app.$axios.$post('/api/tracking/chapter/completion', {
-                    'playlistId': detail.id,
-                    'siteId': app.i18n.localeProperties.siteId,
-                    'completed': true,
-                    [sessionStorage.getItem('csrfTokenName')]: sessionStorage.getItem('csrfTokenValue')
-                });
-            } catch (err) {
-                console.log(err);
-            }
+        try {
+            await app.$axios.$post('/api/tracking/chapter/completion', {
+                'playlistId': detail.id,
+                'siteId': app.i18n.localeProperties.siteId,
+                'completed': true,
+                [sessionStorage.getItem('csrfTokenName')]: sessionStorage.getItem('csrfTokenValue')
+            });
+        } catch (err) {
+            console.log(err);
+        }
     });
 
     document.addEventListener('playlist-completed', async ({ detail }) => {
-
-        const courseList = await app.$axios.$get('api/courselist');
-        const completedPlaylists = sessionStorage.getItem('completed').split(',');
-
-        const courseListArray = Object.entries(courseList);
-
-        const filteredCourseListArray = courseListArray.filter(([key, value]) => {
-            if (!Array.isArray(value)) {
-                return parseInt(value) === parseInt(detail.id)
-            }
-            return value.includes(parseInt(detail.id))
-        });
-
-        if (filteredCourseListArray.length > 0) {
-
-            const completedCourseListArray = filteredCourseListArray.filter(([key, value]) => {
-                if (!Array.isArray(value)) {
-                    return completedPlaylists.includes(value + '')
-                }
-                return value.every(v => completedPlaylists.includes(v + ''));
-            });
-
-            if (completedCourseListArray.length > 0) {
-                for (const completedCourse of Object.keys(Object.fromEntries(completedCourseListArray))) {
-
-                    completeUnit(completedCourse);
-
-                    try {
-                        await app.$axios.$post('/api/tracking/course/completion', {
-                            'courseId': completedCourse,
-                            'siteId': app.i18n.localeProperties.siteId,
-                            'completed': true,
-                            [sessionStorage.getItem('csrfTokenName')]: sessionStorage.getItem('csrfTokenValue')
-                        });
-                    } catch (err) {
-                        console.log(err);
-                    }
-
-                }
-            }
-        }
-
+        completeCourse(app, detail.id);
     });
 
     document.addEventListener('quiz-attempt', async ({ detail }) => {
@@ -148,6 +107,56 @@ export default ({ app }, inject) => {
         }
     });
 
+    document.addEventListener('quiz-attempt', async ({ detail }) => {
+        if (detail.evaluationResult) {
+            completeCourse(app, detail.id);
+        }
+    });
+
     endpoints.identity();
 
 };
+
+async function completeCourse(app, id) {
+    const courseList = await app.$axios.$get('api/courselist');
+    const completedPlaylists = sessionStorage.getItem('completed').split(',');
+
+    const courseListArray = Object.entries(courseList);
+
+    const filteredCourseListArray = courseListArray.filter(([key, value]) => {
+        if (!Array.isArray(value)) {
+            return parseInt(value) === parseInt(id)
+        }
+        return value.includes(parseInt(id))
+    });
+
+    if (filteredCourseListArray.length > 0) {
+
+        const completedCourseListArray = filteredCourseListArray.filter(([key, value]) => {
+            if (!Array.isArray(value)) {
+                return completedPlaylists.includes(value + '')
+            }
+            return value.every(v => completedPlaylists.includes(v + ''));
+        });
+
+        if (completedCourseListArray.length > 0) {
+            for (const completedCourse of Object.keys(Object.fromEntries(completedCourseListArray))) {
+
+                completeUnit(completedCourse);
+
+                try {
+                    await app.$axios.$post('/api/tracking/course/completion', {
+                        'courseId': completedCourse,
+                        'siteId': app.i18n.localeProperties.siteId,
+                        'completed': true,
+                        [sessionStorage.getItem('csrfTokenName')]: sessionStorage.getItem('csrfTokenValue')
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
+
+            }
+        }
+    }
+
+}
