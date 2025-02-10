@@ -155,6 +155,13 @@ async function completeCourse(app, id) {
                     console.log(err);
                 }
 
+                document.dispatchEvent(new CustomEvent('course-completed', {
+                    detail: {
+                        'courseId': completedCourse,
+                        'siteId': app.i18n.localeProperties.siteId,
+                    }
+                }));
+
             }
         }
     }
